@@ -28,7 +28,7 @@ public class ModelisN
     public DateTime GaminimoData { get; set; }
 
     [DisplayName("Kebulo tipas")]
-    public int KebuloTipas { get; set; }
+    public int FkKebuloTipas { get; set; }
 }
 
 
@@ -54,7 +54,7 @@ public class ModelisLN
     public DateTime GaminimoData { get; set; }
 
     [DisplayName("Kebulo tipas")]
-    public int KebuloTipas { get; set; }
+    public int FkKebuloTipas { get; set; }
 }
 
 
@@ -92,7 +92,7 @@ public class ModelisCEN
 
         [DisplayName("Kebulo tipas")]
         [Required]
-        public int KebuloTipas { get; set; }
+        public int FkKebuloTipas { get; set; }
     }
 
     /// <summary>
