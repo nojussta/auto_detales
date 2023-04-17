@@ -14,22 +14,22 @@ public class SutartisL
 	public int Nr { get; set; }
 
 
-	[DisplayName("Sudarymo data")]
+	[DisplayName("Skrydžio data")]
 	[DataType(DataType.Date)]
 	[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
 	public DateTime Data { get; set; }
 
 
-	[DisplayName("Darbuotojas")]
-	public string Darbuotojas { get; set; }
+	[DisplayName("Klientas")]
+	public string Klientas { get; set; }
+
+    [DisplayName("Vieta")]
+    public string Vieta { get; set; }
+
+    [DisplayName("Užsakymo Nr.")]
+    public int Uzsakymo_Nr { get; set; }
 
 
-	[DisplayName("Nuomininkas")]
-	public string Nuomininkas { get; set; }
-
-
-	[DisplayName("Būsena")]
-	public string Busena { get; set; }
 }
 
 

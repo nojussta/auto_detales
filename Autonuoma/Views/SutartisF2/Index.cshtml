@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Org.Ktu.Isk.P175B602.Autonuoma.Models.SutartisF2.SutartisL>
 
 @* this will also be used as page title in main layout *@
-@{ ViewData["title"] = "Sutartys (F2)"; }
+@{ ViewData["title"] = "Skrydžiai (F2)"; }
 
 @* content header *@
 <div class="main-content-header">
@@ -23,13 +23,13 @@
 					@Html.DisplayNameFor(m => m.Data)
 				</th>
 				<th>
-					@Html.DisplayNameFor(m => m.Darbuotojas)
+					@Html.DisplayNameFor(m => m.Klientas)
 				</th>
 				<th>
-					@Html.DisplayNameFor(m => m.Nuomininkas)
+					@Html.DisplayNameFor(m => m.Vieta)
 				</th>
 				<th>
-					@Html.DisplayNameFor(m => m.Busena)
+					@Html.DisplayNameFor(m => m.Uzsakymo_Nr)
 				</th>
 				<th></th>
 			</tr>
@@ -44,13 +44,13 @@
 					@Html.DisplayFor(m => item.Data)
 				</td>
 				<td>
-					@Html.DisplayFor(m => item.Darbuotojas)
+					@Html.DisplayFor(m => item.Klientas)
 				</td>
 				<td>
-					@Html.DisplayFor(m => item.Nuomininkas)
+					@Html.DisplayFor(m => item.Vieta)
 				</td>
 				<td>
-					@Html.DisplayFor(m => item.Busena)
+					@Html.DisplayFor(m => item.Uzsakymo_Nr)
 				</td>
 				<td>
 					<a 

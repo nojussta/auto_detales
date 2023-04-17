@@ -16,28 +16,28 @@ public class SutartisF2Repo
 	{
 		var query =
 			$@"SELECT
-				s.nr,
-				s.sutarties_data as data,
-				CONCAT(d.vardas,' ', d.pavarde) as darbuotojas,
-				CONCAT(n.vardas,' ',n.pavarde) as nuomininkas,
-				b.name as busena
+				sb.id_skrydzio_bilietas as nr,
+				sk.Data as data,
+				sb.vieta as vieta,
+				u.Uzsakymo_nr as uzsakymo_nr,
+				CONCAT(k.vardas,' ',k.pavarde) as klientas
 			FROM
-				`{Config.TblPrefix}sutartys` s
-				LEFT JOIN `{Config.TblPrefix}darbuotojai` d ON s.fk_darbuotojas=d.tabelio_nr
-				LEFT JOIN `{Config.TblPrefix}klientai` n ON s.fk_klientas=n.asmens_kodas
-				LEFT JOIN `{Config.TblPrefix}sutarties_busenos` b ON s.busena=b.id
-			ORDER BY s.nr DESC";
+				`skrydziu_bilietai` sb
+				LEFT JOIN `skrydziai` sk ON sb.fk_skrydisid_skrydis=sk.id_skrydis
+				LEFT JOIN `uzsakymai` u ON sb.fk_uzsakymasid_uzsakymas=u.id_uzsakymas
+				LEFT JOIN `klientai` k ON u.fk_klientasid_klientas=k.id_klientas				
+			ORDER BY sb.id_skrydzio_bilietas DESC";
 
 		var drc = Sql.Query(query);
 
 		var result =
 			Sql.MapAll<SutartisL>(drc, (dre, t) => {
 				t.Nr = dre.From<int>("nr");
-				t.Darbuotojas = dre.From<string>("darbuotojas");
-				t.Nuomininkas = dre.From<string>("nuomininkas");
 				t.Data = dre.From<DateTime>("data");
-				t.Busena = dre.From<string>("busena");
-			});
+                t.Klientas = dre.From<string>("klientas");
+				t.Vieta = dre.From<string>("vieta");
+				t.Uzsakymo_Nr = dre.From<int>("uzsakymo_nr");
+            });
 
 		return result;
 	}
