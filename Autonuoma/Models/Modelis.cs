@@ -10,25 +10,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 /// </summary>
 public class Modelis
 {
-    [DisplayName("Id")]
-    public int Id { get; set; }
+	[DisplayName("Id")]
+	public int Id { get; set; }
 
-    [DisplayName("Pavadinimas")]
-    public string Pavadinimas { get; set; }
+	[DisplayName("Pavadinimas")]
+	public string Pavadinimas { get; set; }
 
-    //Markė
-    [DisplayName("Markė")]
-    public int FkMarke { get; set; }
-
-    //Additional fields
-    [DisplayName("Serija")]
-    public string Serija { get; set; }
-
-    [DisplayName("Gaminimo data")]
-    public DateTime GaminimoData { get; set; }
-
-    [DisplayName("Kebulo tipas")]
-    public int FkKebuloTipas { get; set; }
+	//Markė
+	[DisplayName("Markė")]
+	public int FkMarke { get; set; }
 }
 
 
@@ -37,24 +27,14 @@ public class Modelis
 /// </summary>
 public class ModelisL
 {
-    [DisplayName("Id")]
-    public int Id { get; set; }
+	[DisplayName("Id")]
+	public int Id { get; set; }
 
-    [DisplayName("Pavadinimas")]
-    public string Pavadinimas { get; set; }
+	[DisplayName("Pavadinimas")]
+	public string Pavadinimas { get; set; }		
 
-    [DisplayName("Markė")]
-    public string Marke { get; set; }
-
-    //Additional fields
-    [DisplayName("Serija")]
-    public string Serija { get; set; }
-
-    [DisplayName("Gaminimo data")]
-    public DateTime GaminimoData { get; set; }
-
-    [DisplayName("Kebulo tipas")]
-    public int FkKebuloTipas { get; set; }
+	[DisplayName("Markė")]
+	public string Marke { get; set; }
 }
 
 
@@ -63,54 +43,40 @@ public class ModelisL
 /// </summary>
 public class ModelisCE
 {
-    /// <summary>
-    /// Entity data
-    /// </summary>
-    public class ModelM
-    {
-        [DisplayName("Id")]
-        public int Id { get; set; }
+	/// <summary>
+	/// Entity data
+	/// </summary>
+	public class ModelM
+	{
+		[DisplayName("Id")]
+		public int Id { get; set; }
 
-        [DisplayName("Pavadinimas")]
-        [MaxLength(20)]
-        [Required]
-        public string Pavadinimas { get; set; }
+		[DisplayName("Pavadinimas")]
+		[MaxLength(20)]
+		[Required]
+		public string Pavadinimas { get; set; }
 
-        [DisplayName("Markė")]
-        [Required]
-        public int FkMarke { get; set; }
+		[DisplayName("Markė")]
+		[Required]
+		public int FkMarke { get; set; }
+	}
 
-        //Additional fields
-        [DisplayName("Serija")]
-        [MaxLength(20)]
-        [Required]
-        public string Serija { get; set; }
+	/// <summary>
+	/// Select lists for making drop downs for choosing values of entity fields.
+	/// </summary>
+	public class ListsM
+	{
+		public IList<SelectListItem> Markes { get; set; }
+	}
 
-        [DisplayName("Gaminimo data")]
-        [Required]
-        public DateTime GaminimoData { get; set; }
+	/// <summary>
+	/// Entity view.
+	/// </summary>
+	public ModelM Model { get; set; } = new ModelM();
 
-        [DisplayName("Kebulo tipas")]
-        [Required]
-        public int FkKebuloTipas { get; set; }
-    }
-
-    /// <summary>
-    /// Select lists for making drop downs for choosing values of entity fields.
-    /// </summary>
-    public class ListsM
-    {
-        public IList<SelectListItem> Markes { get; set; }
-    }
-
-    /// <summary>
-    /// Entity view.
-    /// </summary>
-    public ModelM Model { get; set; } = new ModelM();
-
-    /// <summary>
-    /// Lists for drop down controls.
-    /// </summary>
-    public ListsM Lists { get; set; } = new ListsM();
+	/// <summary>
+	/// Lists for drop down controls.
+	/// </summary>
+	public ListsM Lists { get; set; } = new ListsM();
 }
 
