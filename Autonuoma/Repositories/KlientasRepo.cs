@@ -3,6 +3,7 @@
 using MySql.Data.MySqlClient;
 
 using Org.Ktu.Isk.P175B602.Autonuoma.Models;
+using Org.Ktu.Isk.P175B602.Autonuoma.Models.ModelioSpecifikacijos;
 
 
 /// <summary>
@@ -10,110 +11,151 @@ using Org.Ktu.Isk.P175B602.Autonuoma.Models;
 /// </summary>
 public class KlientasRepo
 {
-	public static List<Klientas> List()
-	{
-		var query = $@"SELECT * FROM `{Config.TblPrefix}klientai` ORDER BY asmens_kodas ASC";
-		var drc = Sql.Query(query);
+    //public static List<Klientas> List()
+    //{
+    //	var query = $@"SELECT * FROM `klientai` ORDER BY id_klientas ASC";
+    //	var drc = Sql.Query(query);
 
-		var result = 
-			Sql.MapAll<Klientas>(drc, (dre, t) => {
-				t.AsmensKodas = dre.From<string>("asmens_kodas");
-				t.Vardas = dre.From<string>("vardas");
-				t.Pavarde = dre.From<string>("pavarde");
-				t.GimimoData = dre.From<DateTime>("gimimo_data");
-				t.Telefonas = dre.From<string>("telefonas");
-				t.Epastas = dre.From<string>("epastas");
-			});
+    //	var result = 
+    //		Sql.MapAll<Klientas>(drc, (dre, t) => {
+    //			t.Id = dre.From<int>("id_klientas");
+    //			t.Vardas = dre.From<string>("Vardas");
+    //			t.Pavarde = dre.From<string>("Pavarde");
+    //			t.GimimoData = dre.From<DateTime>("Gimimo_data");
+    //			t.Epastas = dre.From<string>("El_pastas");
+    //		});
 
-		return result;
-	}
+    //	return result;
+    //}
 
-	public static Klientas Find(string asmkodas)
-	{
-		var query = $@"SELECT * FROM `{Config.TblPrefix}klientai` WHERE asmens_kodas=?asmkodas";
+    public static List<ModelioSpecifikacijos> List()
+    {
+        var query = $@"SELECT * FROM `modelio_specifikacijos` ORDER BY id_ ASC";
+        var drc = Sql.Query(query);
 
-		var drc =
-			Sql.Query(query, args => {
-				args.Add("?asmkodas", asmkodas);
-			});
+        var result =
+            Sql.MapAll<ModelioSpecifikacijos>(drc, (dre, t) =>
+            {
+                t.ID = dre.From<int>("id_");
+                t.Pavadinimas = dre.From<string>("pavadinimas");
+                t.VariklioTuris = dre.From<int>("variklio_turis");
+                t.Galia = dre.From<int>("galia");
+                t.KuroTipas = dre.From<int>("kuro_tipas");
+                t.FkModelis = dre.From<int>("fk_Modelis");
+            });
 
-		if( drc.Count > 0 )
-		{
-			var result = 
-				Sql.MapOne<Klientas>(drc, (dre, t) => {
-					t.AsmensKodas = dre.From<string>("asmens_kodas");
-					t.Vardas = dre.From<string>("vardas");
-					t.Pavarde = dre.From<string>("pavarde");
-					t.GimimoData = dre.From<DateTime>("gimimo_data");
-					t.Telefonas = dre.From<string>("telefonas");
-					t.Epastas = dre.From<string>("epastas");
-				});
+        return result;
+    }
 
-			return result;
-		}
+    //public static Klientas Find(int idklientas)
+    //{
+    //	var query = $@"SELECT * FROM `klientai` WHERE id_klientas=?idklientas";
 
-		return null;
-	}
+    //	var drc =
+    //		Sql.Query(query, args => {
+    //			args.Add("?idklientas", idklientas);
+    //		});
 
-	public static void Insert(Klientas klientas)
-	{
-		var query =
-			$@"INSERT INTO `{Config.TblPrefix}klientai`
+    //	if( drc.Count > 0 )
+    //	{
+    //		var result = 
+    //			Sql.MapOne<Klientas>(drc, (dre, t) => {
+    //				t.Id = dre.From<int>("id_klientas");
+    //				t.Vardas = dre.From<string>("Vardas");
+    //				t.Pavarde = dre.From<string>("Pavarde");
+    //				t.GimimoData = dre.From<DateTime>("Gimimo_data");
+    //				t.Epastas = dre.From<string>("El_pastas");
+    //			});
+
+    //		return result;
+    //	}
+
+    //	return null;
+    //}
+
+    public static ModelioSpecifikacijos Find(int id)
+    {
+        var query = $@"SELECT * FROM `modelio_specifikacijos` WHERE id_=?id";
+
+        var drc =
+            Sql.Query(query, args =>
+            {
+                args.Add("?id", id);
+            });
+
+        if (drc.Count > 0)
+        {
+            var result =
+                Sql.MapOne<ModelioSpecifikacijos>(drc, (dre, t) =>
+                {
+                    t.ID = dre.From<int>("id_");
+                    t.Pavadinimas = dre.From<string>("pavadinimas");
+                    t.VariklioTuris = dre.From<int>("variklio_turis");
+                    t.Galia = dre.From<int>("galia");
+                    t.KuroTipas = dre.From<int>("kuro_tipas");
+                    t.FkModelis = dre.From<int>("fk_Modelis");
+                });
+
+            return result;
+        }
+
+        return null;
+    }
+
+    public static void Insert(Klientas klientas)
+    {
+        var query =
+            $@"INSERT INTO `klientai`
 			(
-				asmens_kodas,
-				vardas,
-				pavarde,
-				gimimo_data,
-				telefonas,
-				epastas
+				Vardas,
+				Pavarde,
+				Gimimo_data,
+				El_pastas
 			)
 			VALUES(
-				?asmkod,
 				?vardas,
 				?pavarde,
 				?gimdata,
-				?tel,
 				?email
 			)";
 
-		Sql.Insert(query, args => {
-			args.Add("?asmkod", klientas.AsmensKodas);
-			args.Add("?vardas", klientas.Vardas);
-			args.Add("?pavarde", klientas.Pavarde);
-			args.Add("?gimdata", klientas.GimimoData);
-			args.Add("?tel", klientas.Telefonas);
-			args.Add("?email", klientas.Epastas);
-		});
-	}
+        Sql.Insert(query, args =>
+        {
+            args.Add("?vardas", klientas.Vardas);
+            args.Add("?pavarde", klientas.Pavarde);
+            args.Add("?gimdata", klientas.GimimoData);
+            args.Add("?email", klientas.Epastas);
+        });
+    }
 
-	public static void Update(Klientas klientas)
-	{
-		var query =
-			$@"UPDATE `{Config.TblPrefix}klientai`
+    public static void Update(Klientas klientas)
+    {
+        var query =
+            $@"UPDATE `klientai`
 			SET
-				vardas=?vardas,
-				pavarde=?pavarde,
-				gimimo_data=?gimdata,
-				telefonas=?tel,
-				epastas=?email
+				Vardas=?vardas,
+				Pavarde=?pavarde,
+				Gimimo_data=?gimdata,
+				El_pastas=?email
 			WHERE
-				asmens_kodas=?asmkod";
+				id_klientas=?idklientas";
 
-		Sql.Update(query, args => {
-			args.Add("?asmkod", klientas.AsmensKodas);
-			args.Add("?vardas", klientas.Vardas);
-			args.Add("?pavarde", klientas.Pavarde);
-			args.Add("?gimdata", klientas.GimimoData);
-			args.Add("?tel", klientas.Telefonas);
-			args.Add("?email", klientas.Epastas);
-		});
-	}
+        Sql.Update(query, args =>
+        {
+            args.Add("?idklientas", klientas.Id);
+            args.Add("?vardas", klientas.Vardas);
+            args.Add("?pavarde", klientas.Pavarde);
+            args.Add("?gimdata", klientas.GimimoData);
+            args.Add("?email", klientas.Epastas);
+        });
+    }
 
-	public static void Delete(string id)
-	{
-		var query = $@"DELETE FROM `{Config.TblPrefix}klientai` WHERE asmens_kodas=?id";
-		Sql.Delete(query, args => {
-			args.Add("?id", id);
-		});
-	}
+    public static void Delete(int id)
+    {
+        var query = $@"DELETE FROM `klientai` WHERE id_klientas=?id";
+        Sql.Delete(query, args =>
+        {
+            args.Add("?id", id);
+        });
+    }
 }
