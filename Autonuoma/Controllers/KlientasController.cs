@@ -41,20 +41,20 @@ public class KlientasController : Controller
 	public ActionResult Create(Klientas klientas)
 	{
 		//do not allow creation of entity with 'asmensKodas' field matching existing one
-		var match = KlientasRepo.Find(klientas.AsmensKodas);
+		var match = KlientasRepo.Find(klientas.Id);
 
-		if( match !=null )
+		if (match != null)
 			ModelState.AddModelError("asmensKodas", "Field value already exists in database.");
 
 		//form field validation passed?
-		if( ModelState.IsValid )
+		if (ModelState.IsValid)
 		{
 			KlientasRepo.Insert(klientas);
 
 			//save success, go back to the entity list
 			return RedirectToAction("Index");
 		}
-		
+
 		//form field validation failed, go back to the form
 		return View(klientas);
 	}
@@ -65,7 +65,7 @@ public class KlientasController : Controller
 	/// <param name="id">ID of the entity to edit.</param>
 	/// <returns>Editing form view.</returns>
 	[HttpGet]
-	public ActionResult Edit(string id)
+	public ActionResult Edit(int id)
 	{
 		return View(KlientasRepo.Find(id));
 	}
@@ -77,7 +77,7 @@ public class KlientasController : Controller
 	/// <param name="klientas">Entity model filled with latest data.</param>
 	/// <returns>Returns editing from view or redirects back to Index if save is successfull.</returns>
 	[HttpPost]
-	public ActionResult Edit(string id, Klientas klientas)
+	public ActionResult Edit(int id, Klientas klientas)
 	{
 		//form field validation passed?
 		if (ModelState.IsValid)
@@ -96,7 +96,7 @@ public class KlientasController : Controller
 	/// <param name="id">ID of the entity to delete.</param>
 	/// <returns>Deletion form view.</returns>
 	[HttpGet]
-	public ActionResult Delete(string id)
+	public ActionResult Delete(int id)
 	{
 		var klientas = KlientasRepo.Find(id);
 		return View(klientas);
@@ -108,7 +108,7 @@ public class KlientasController : Controller
 	/// <param name="id">ID of the entity to delete.</param>
 	/// <returns>Deletion form view on error, redirects to Index on success.</returns>
 	[HttpPost]
-	public ActionResult DeleteConfirm(string id)
+	public ActionResult DeleteConfirm(int id)
 	{
 		//try deleting, this will fail if foreign key constraint fails
 		try 
