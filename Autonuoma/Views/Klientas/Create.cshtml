@@ -25,11 +25,6 @@
 	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 	<fieldset>
-		<div class="form-group">
-			@Html.LabelFor(m => m.AsmensKodas)
-			@Html.EditorFor(m => m.AsmensKodas)
-			@Html.ValidationMessageFor(m => m.AsmensKodas, "")
-		</div>
 
 		<div class="form-group">
 			@Html.LabelFor(m => m.Vardas)
@@ -47,12 +42,6 @@
 			@Html.LabelFor(m => m.GimimoData)
 			@Html.TextBoxFor(m => m.GimimoData, "{0:yyyy-MM-dd}", new { @class = "form-control date-picker"})
 			@Html.ValidationMessageFor(m => m.GimimoData, "")
-		</div>
-
-		<div class="form-group">
-			@Html.LabelFor(m => m.Telefonas)
-			@Html.EditorFor(m => m.Telefonas)
-			@Html.ValidationMessageFor(m => m.Telefonas, "")
 		</div>
 
 		<div class="form-group">

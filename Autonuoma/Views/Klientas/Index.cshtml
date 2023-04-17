@@ -17,7 +17,7 @@
 		<thead>
 			<tr>
 				<th>
-					@Html.DisplayNameFor(model => model.AsmensKodas)
+					@Html.DisplayNameFor(model => model.Id)
 				</th>
 				<th>
 					@Html.DisplayNameFor(model => model.Vardas)
@@ -29,9 +29,6 @@
 					@Html.DisplayNameFor(model => model.GimimoData)
 				</th>
 				<th>
-					@Html.DisplayNameFor(model => model.Telefonas)
-				</th>
-				<th>
 					@Html.DisplayNameFor(model => model.Epastas)
 				</th>
 				<th></th>
@@ -41,7 +38,7 @@
 			@foreach (var item in Model) {
 			<tr>
 				<td>
-					@Html.DisplayFor(model => item.AsmensKodas)
+					@Html.DisplayFor(model => item.Id)
 				</td>
 				<td>
 					@Html.DisplayFor(model => item.Vardas)
@@ -53,14 +50,11 @@
 					@Html.DisplayFor(model => item.GimimoData)
 				</td>
 				<td>
-					@Html.DisplayFor(model => item.Telefonas)
-				</td>
-				<td>
 					@Html.DisplayFor(model => item.Epastas)
 				</td>
 				<td>
-					<a href="@Url.Action("Edit", new { id = item.AsmensKodas })" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Redaguoti</a>
-					<a href="@Url.Action("Delete", new { id = item.AsmensKodas })" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Šalinti</a>
+					<a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Redaguoti</a>
+					<a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Šalinti</a>
 				</td>
 			</tr>
 			}
