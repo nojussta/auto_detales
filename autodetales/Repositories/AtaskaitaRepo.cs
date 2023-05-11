@@ -12,10 +12,10 @@ using ServicesReport = Org.Ktu.Isk.P175B602.Autonuoma.Models.ServicesReport;
 /// </summary>
 public class AtaskaitaRepo
 {
-	public static List<ServicesReport.Paslauga> GetServicesOrdered(DateTime? dateFrom, DateTime? dateTo)
-	{
-		var query =
-			$@"SELECT
+    public static List<ServicesReport.Paslauga> GetServicesOrdered(DateTime? dateFrom, DateTime? dateTo)
+    {
+        var query =
+            $@"SELECT
 				pasl.id,
 				pasl.pavadinimas,
 				SUM(up.kiekis) AS kiekis,
@@ -34,27 +34,29 @@ public class AtaskaitaRepo
 			ORDER BY
 				suma DESC";
 
-		var drc =
-			Sql.Query(query, args => {
-				args.Add("?nuo", dateFrom);
-				args.Add("?iki", dateTo);
-			});
+        var drc =
+            Sql.Query(query, args =>
+            {
+                args.Add("?nuo", dateFrom);
+                args.Add("?iki", dateTo);
+            });
 
-		var result = 
-			Sql.MapAll<ServicesReport.Paslauga>(drc, (dre, t) => {
-				t.Id = dre.From<int>("id");
-				t.Pavadinimas = dre.From<string>("pavadinimas");
-				t.Kiekis = dre.From<int>("kiekis");
-				t.Suma = dre.From<decimal>("suma");
-			});
+        var result =
+            Sql.MapAll<ServicesReport.Paslauga>(drc, (dre, t) =>
+            {
+                t.Id = dre.From<int>("id");
+                t.Pavadinimas = dre.From<string>("pavadinimas");
+                t.Kiekis = dre.From<int>("kiekis");
+                t.Suma = dre.From<decimal>("suma");
+            });
 
-		return result;
-	}
+        return result;
+    }
 
-	public static ServicesReport.Report GetTotalServicesOrdered(DateTime? dateFrom, DateTime? dateTo)
-	{
-		var query =
-			$@"SELECT
+    public static ServicesReport.Report GetTotalServicesOrdered(DateTime? dateFrom, DateTime? dateTo)
+    {
+        var query =
+            $@"SELECT
 				SUM(up.kiekis) AS kiekis,
 				SUM(up.kiekis*up.kaina) AS suma
 			FROM
@@ -67,25 +69,27 @@ public class AtaskaitaRepo
 				AND sut.sutarties_data >= IFNULL(?nuo, sut.sutarties_data)
 				AND sut.sutarties_data <= IFNULL(?iki, sut.sutarties_data)";
 
-		var drc =
-			Sql.Query(query, args => {
-				args.Add("?nuo", dateFrom);
-				args.Add("?iki", dateTo);
-			});
+        var drc =
+            Sql.Query(query, args =>
+            {
+                args.Add("?nuo", dateFrom);
+                args.Add("?iki", dateTo);
+            });
 
-		var result = 
-			Sql.MapOne<ServicesReport.Report>(drc, (dre, t) => {
-				t.VisoUzsakyta = dre.From<int?>("kiekis") ?? 0;
-				t.BendraSuma = dre.From<decimal?>("suma") ?? 0;
-			});
+        var result =
+            Sql.MapOne<ServicesReport.Report>(drc, (dre, t) =>
+            {
+                t.VisoUzsakyta = dre.From<int?>("kiekis") ?? 0;
+                t.BendraSuma = dre.From<decimal?>("suma") ?? 0;
+            });
 
-		return result;
-	}
+        return result;
+    }
 
-	public static List<ContractsReport.Sutartis> GetContracts(DateTime? dateFrom, DateTime? dateTo)
-	{
-		var query =
-			$@"SELECT
+    public static List<ContractsReport.Sutartis> GetContracts(DateTime? dateFrom, DateTime? dateTo)
+    {
+        var query =
+            $@"SELECT
 				sut.nr,
 				sut.sutarties_data,
 				kln.vardas,
@@ -135,32 +139,86 @@ public class AtaskaitaRepo
 			ORDER BY 
 				kln.pavarde ASC";
 
-		var drc =
-			Sql.Query(query, args => {
-				args.Add("?nuo", dateFrom);
-				args.Add("?iki", dateTo);
-			});
+        var drc =
+            Sql.Query(query, args =>
+            {
+                args.Add("?nuo", dateFrom);
+                args.Add("?iki", dateTo);
+            });
 
-		var result = 
-			Sql.MapAll<ContractsReport.Sutartis>(drc, (dre, t) => {
-				t.Nr = dre.From<int>("nr");
-				t.SutartiesData = dre.From<DateTime>("sutarties_data");
-				t.AsmensKodas = dre.From<string>("asmens_kodas");
-				t.Vardas = dre.From<string>("vardas");
-				t.Pavarde = dre.From<string>("pavarde");
-				t.Kaina = dre.From<decimal>("kaina");
-				t.PaslauguKaina = dre.From<decimal>("paslaugu_kaina");
-				t.BendraSuma = dre.From<decimal>("bendra_suma");
-				t.BendraSumaPaslaug = dre.From<decimal>("bendra_suma_paslaugu");
-			});
+        var result =
+            Sql.MapAll<ContractsReport.Sutartis>(drc, (dre, t) =>
+            {
+                t.Nr = dre.From<int>("nr");
+                t.SutartiesData = dre.From<DateTime>("sutarties_data");
+                t.AsmensKodas = dre.From<string>("asmens_kodas");
+                t.Vardas = dre.From<string>("vardas");
+                t.Pavarde = dre.From<string>("pavarde");
+                t.Kaina = dre.From<decimal>("kaina");
+                t.PaslauguKaina = dre.From<decimal>("paslaugu_kaina");
+                t.BendraSuma = dre.From<decimal>("bendra_suma");
+                t.BendraSumaPaslaug = dre.From<decimal>("bendra_suma_paslaugu");
+            });
 
-		return result;
-	}
+        return result;
+    }
 
-	public static List<LateContractsReport.Sutartis> GetLateReturnContracts(DateTime? dateFrom, DateTime? dateTo)
-	{
-		var query =
-			$@"SELECT
+    public static List<ContractsReport.Sutartis> GetDalys(DateTime? dateFrom, DateTime? dateTo)
+    {
+        var query =
+            $@"SELECT
+                   pad.miestas as pad_miestas,
+                   pp.data as data,
+                   dal.dalis,
+                   dal.dalies_sritis,
+                   ms.pavadinimas as mod_spec,
+                   ms.variklio_turis,
+                   ms.galia,
+                   kt.name AS kuro_tipas,
+                   COUNT(*) AS padaliniu_skaicius
+               FROM
+                   priklauso_padaliniui pp
+                   LEFT JOIN Dalys dal ON pp.fk_Dalis = dal.id_
+                   LEFT JOIN Modelio_specifikacijos ms ON dal.fk_Modelio_specifikacija = ms.id_
+                   INNER JOIN kuro_tipai kt ON ms.kuro_tipas = kt.id_
+                   INNER JOIN Padaliniai pad ON pp.fk_Padalinys = pad.id
+               WHERE
+                   pp.data >= IFNULL(?nuo, pp.data)
+                   AND pp.data <= IFNULL(?iki, pp.data)
+               GROUP BY 
+                   dal.dalis, dal.dalies_sritis, ms.variklio_turis, ms.galia, kt.name
+               ORDER BY 
+                   pp.data DESC, dal.dalies_sritis ASC";
+
+        var drc =
+            Sql.Query(query, args =>
+            {
+                args.Add("?nuo", dateFrom);
+                args.Add("?iki", dateTo);
+            });
+
+        var result =
+            Sql.MapAll<ContractsReport.Sutartis>(drc, (dre, t) =>
+            {
+                t.Padalinys = dre.From<string>("pad_miestas");
+                t.Data = dre.From<DateTime>("data");
+                t.ModelioPavadinimas = dre.From<string>("mod_spec");
+                t.Dalis = dre.From<string>("dalis");
+                t.DaliesSritis = dre.From<string>("dalies_sritis");
+                t.VariklioTuris = dre.From<int>("variklio_turis");
+                t.Galia = dre.From<int>("galia");
+                t.KuroTipas = dre.From<string>("kuro_tipas");
+                t.PadaliniuSkaicius = dre.From<int>("padaliniu_skaicius");
+            });
+
+        return result;
+    }
+
+
+    public static List<LateContractsReport.Sutartis> GetLateReturnContracts(DateTime? dateFrom, DateTime? dateTo)
+    {
+        var query =
+            $@"SELECT
 				sut.nr,
 				sut.sutarties_data,
 				CONCAT(kln.vardas, ' ',kln.pavarde) as klientas,
@@ -181,21 +239,23 @@ public class AtaskaitaRepo
 				AND sut.sutarties_data >= IFNULL(?nuo, sut.sutarties_data)
 				AND sut.sutarties_data <= IFNULL(?iki, sut.sutarties_data)";
 
-		var drc =
-			Sql.Query(query, args => {
-				args.Add("?nuo", dateFrom);
-				args.Add("?iki", dateTo);
-			});
+        var drc =
+            Sql.Query(query, args =>
+            {
+                args.Add("?nuo", dateFrom);
+                args.Add("?iki", dateTo);
+            });
 
-		var result = 
-			Sql.MapAll<LateContractsReport.Sutartis>(drc, (dre, t) => {
-				t.Nr = dre.From<int>("nr");
-				t.SutartiesData = dre.From<DateTime>("sutarties_data");
-				t.Klientas = dre.From<string>("klientas");
-				t.PlanuojamaGrData = dre.From<DateTime>("planuojama_grazinimo_data_laikas");
-				t.FaktineGrData = dre.From<string>("grazinimo_data");
-			});
+        var result =
+            Sql.MapAll<LateContractsReport.Sutartis>(drc, (dre, t) =>
+            {
+                t.Nr = dre.From<int>("nr");
+                t.SutartiesData = dre.From<DateTime>("sutarties_data");
+                t.Klientas = dre.From<string>("klientas");
+                t.PlanuojamaGrData = dre.From<DateTime>("planuojama_grazinimo_data_laikas");
+                t.FaktineGrData = dre.From<string>("grazinimo_data");
+            });
 
-		return result;
-	}
+        return result;
+    }
 }
